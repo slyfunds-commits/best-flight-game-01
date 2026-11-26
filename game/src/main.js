@@ -196,7 +196,7 @@ function frame(ts) {
   // --- flying ---
   const wind = windVector(leg, flight.time);
   const ctrl = AUTO
-    ? autopilotInput(ap, flight, autopilotTarget(ap, leg, ringsPassed, destStripForLeg(leg)), dt, wind)
+    ? autopilotInput(ap, flight, autopilotTarget(ap, leg, ringsPassed, destStripForLeg(leg) || stripForLeg(leg)), dt, wind)
     : input.read(dt);
   const ev = stepFlight(flight, ctrl, dt, wind, terrainHeight);
   const windSpeed = Math.sqrt(wind.x * wind.x + wind.z * wind.z);
