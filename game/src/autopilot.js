@@ -32,14 +32,20 @@ export function autopilotInput(ap, flight, target, dt, wind) {
   let dh = desired - flight.heading;
   while (dh > Math.PI) dh -= Math.PI * 2;
   while (dh < -Math.PI) dh += Math.PI * 2;
-  const aileron = Math.max(-1, Math.min(1, dh * 1.4 - flight.roll * 1.2));
+  // Sign check (verified in node: the inverted sign flew the plane 75 km
+  // southwest of ring 1): aileron > 0 banks right, banking right DECREASES
+  // flight.heading, so a negative dh (desired below heading) needs a
+  // POSITIVE aileron. The roll term damps the bank back toward level.
+  const aileron = Math.max(-1, Math.min(1, -dh * 1.4 - flight.roll * 1.2));
 
   // Altitude: hold the band, climb early, descend late.
   const altErr = ap.targetAlt - flight.y;
   let elevator = Math.max(-0.8, Math.min(0.8, altErr * 0.012 - flight.pitch * 1.6));
-  if (ap.phase === 'land') {
-    // Flare: level off low, bleed speed, settle.
-    elevator = Math.max(-0.4, Math.min(0.6, (12 - flight.y) * 0.02 - flight.pitch * 2));
+  if (ap.phase === 'land' && dist < 400) {
+    // Flare, only on final: level off just above the strip, bleed speed,
+    // settle. (Before the fix the flare held the plane at 12 m for the
+    // whole approach and it orbited the strip forever, never touching down.)
+    elevator = Math.max(-0.4, Math.min(0.6, (2 - flight.y) * 0.05 - flight.pitch * 2));
   }
 
   // Throttle: cruise power, ease off when fast or close, idle on final.
