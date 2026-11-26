@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Last Light Mail — a bush pilot's mail run across a golden-hour archipelago. Fly the rings, mind the wind, land soft.">
+<title>Last Light Mail — a bush pilot's mail run</title>
+<link rel="stylesheet" href="./style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.min.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="app">
+  <canvas id="scene"></canvas>
+
+  <!-- Flight HUD -->
+  <div id="hud" class="hidden">
+    <div id="instruments">
+      <div class="gauge"><span class="label">ALT</span><span class="value" id="hud-alt">0</span><span class="unit">ft</span></div>
+      <div class="gauge"><span class="label">SPD</span><span class="value" id="hud-spd">0</span><span class="unit">kt</span></div>
+      <div class="gauge"><span class="label">HDG</span><span class="value" id="hud-hdg">000</span><span class="unit">&deg;</span></div>
+      <div class="gauge"><span class="label">THR</span><span class="value" id="hud-thr">0</span><span class="unit">%</span></div>
+    </div>
+    <div id="compass"><div id="compass-strip"></div><div id="compass-needle">&#9660;</div></div>
+    <div id="fuelbox">
+      <div class="fuel-row"><span class="label">FUEL</span><div id="fuel-bar"><div id="fuel-fill"></div></div><span class="value" id="hud-fuel">100%</span></div>
+      <div class="fuel-row"><span class="label">CARGO</span><span class="value" id="hud-cargo">—</span></div>
+      <div class="fuel-row"><span class="label">WIND</span><span class="value" id="hud-wind">—</span></div>
+    </div>
+    <div id="missionbox">
+      <div id="hud-leg">Leg 1 — First Light</div>
+      <div id="hud-rings">Rings 0 / 3</div>
+      <div id="hud-timer">Dusk 12:00</div>
+      <div id="hud-damage">Airframe 100%</div>
+    </div>
+    <canvas id="minimap" width="180" height="180"></canvas>
+    <div id="narration"></div>
+    <div id="center-msg"></div>
+    <div id="controls-hint">W/S throttle &nbsp;·&nbsp; A/D bank &nbsp;·&nbsp; ↑/↓ pitch &nbsp;·&nbsp; F flaps &nbsp;·&nbsp; C camera &nbsp;·&nbsp; P pause</div>
+  </div>
+
+  <!-- Pre-flight board -->
+  <div id="briefing" class="screen">
+    <div class="panel">
+      <h1>Last Light Mail</h1>
+      <p class="subtitle">A bush pilot's mail run across the Sable Chain — golden hour, one tank, every letter counts.</p>
+      <div class="board">
+        <div class="board-col">
+          <h2 id="brief-leg">Leg 1 — First Light</h2>
+          <canvas id="chart" width="420" height="300"></canvas>
+          <p id="brief-route" class="route-line"></p>
+        </div>
+        <div class="board-col">
+          <h2>Wind forecast</h2>
+          <p id="brief-wind" class="wind-card"></p>
+          <h2>Cargo manifest</h2>
+          <ul id="brief-cargo"></ul>
+          <h2>Fuel load</h2>
+          <div id="fuel-choices">
+            <button class="fuel-choice" data-fuel="light">Light · 55%</button>
+            <button class="fuel-choice selected" data-fuel="standard">Standard · 80%</button>
+            <button class="fuel-choice" data-fuel="full">Full · 100%</button>
+          </div>
+          <p id="brief-note" class="note"></p>
+          <button id="takeoff-btn">Take off &nbsp;→</button>
+        </div>
+      </div>
+      <p class="foot">Fly the rings, mind the wind, land soft. Heavy cargo flies heavy.</p>
+    </div>
+  </div>
+
+  <!-- Delivery logbook payoff -->
+  <div id="logbook" class="screen hidden">
+    <div class="panel ledger">
+      <h1>Delivery Logbook</h1>
+      <p class="subtitle" id="log-leg"></p>
+      <table id="log-table">
+        <tr><td>Time on leg</td><td id="log-time">—</td></tr>
+        <tr><td>Fuel remaining</td><td id="log-fuel">—</td></tr>
+        <tr><td>Landing</td><td id="log-landing">—</td></tr>
+        <tr><td>Letters delivered</td><td id="log-letters">—</td></tr>
+        <tr><td>Best time</td><td id="log-best">—</td></tr>
+      </table>
+      <div id="log-stamp">DELIVERED</div>
+      <div class="log-buttons">
+        <button id="next-leg-btn">Next island &nbsp;→</button>
+        <button id="replay-btn">Fly it again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Crash / ditch -->
+  <div id="crash" class="screen hidden">
+    <div class="panel">
+      <h1 id="crash-title">Dit​ched in the lagoon</h1>
+      <p class="subtitle" id="crash-text"></p>
+      <button id="retry-btn">Back to the strip</button>
+    </div>
+  </div>
+</div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
