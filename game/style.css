@@ -144,11 +144,15 @@ button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 }
 
 @media (max-width: 640px) {
-  #instruments { gap: 10px; padding: 6px 8px; }
+  /* Phone: stack the top HUD in rows instead of one overlapping row. */
+  #instruments { top: 8px; left: 8px; gap: 8px; padding: 5px 8px; }
   .gauge .value { font-size: 20px; }
-  #compass { width: 200px; }
-  #fuelbox { min-width: 170px; top: 64px; }
+  #compass { top: 62px; left: 8px; transform: none; width: 180px; }
+  #fuelbox { min-width: 0; width: 168px; top: 62px; right: 8px; padding: 6px 8px; }
+  #missionbox { top: 116px; left: 8px; font-size: 13px; line-height: 1.5; }
   #minimap { width: 120px; height: 120px; }
+  #narration { font-size: 15px; bottom: 40px; max-width: 92%; }
+  #controls-hint { display: none; }
   .panel { padding: 18px; }
   .panel h1 { font-size: 28px; }
 }

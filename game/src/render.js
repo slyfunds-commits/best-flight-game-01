@@ -193,7 +193,10 @@ export function updateHUD(flight, leg, ringsPassed, ringsTotal, duskLeft, windNa
     html += '<span style="display:inline-block;width:60px;text-align:center">' + label + '</span>';
   }
   strip.innerHTML = html;
-  strip.style.transform = 'translateX(' + (170 - (hdg % 15) * 4 - 120 * 4) + 'px)';
+  // Centre the current heading under the needle for any strip width
+  // (340px desktop, 180px phone): the d=0 span starts at 8*60 = 480px.
+  const half = strip.parentElement.clientWidth / 2;
+  strip.style.transform = 'translateX(' + (half - (hdg % 15) * 4 - 480) + 'px)';
 }
 
 // Chart minimap: islands, route, rings, aircraft.
