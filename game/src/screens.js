@@ -107,7 +107,7 @@ export function showLogbook(result) {
   $('log-time').textContent = mins + 'm ' + String(secs).padStart(2, '0') + 's';
   $('log-fuel').textContent = Math.round(result.fuelLeft) + '% left';
   $('log-landing').textContent = result.landingGrade;
-  $('log-letters').textContent = result.rings + ' of ' + result.ringsTotal + ' rings · ' + result.letters + ' letters';
+  $('log-letters').textContent = result.rings + ' of ' + result.ringsTotal + ' rings · ' + result.letters;
   $('log-best').textContent = result.best;
   $('log-stamp').textContent = result.newBest ? 'DELIVERED · NEW BEST' : 'DELIVERED';
   return new Promise((resolve) => {
